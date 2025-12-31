@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: wrklyst-postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "@Gaurav6617"
+      POSTGRES_DB: "wrklyst"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # --- ADDED BACKEND SERVICE ---
+  backend:
+    build: .
+    container_name: wrklyst-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: "postgresql://postgres:%40Gaurav6617@postgres:5432/wrklyst"
+      GOOGLE_CLIENT_ID: "856200226846-b9mnahlg3h8gm4nnjm0jtp79f342sgll.apps.googleusercontent.com"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
