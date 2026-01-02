@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>Welcome to Wrklyst</title>
+    <style>
+        body { font-family: 'Inter', -apple-system, sans-serif; background-color: #F8FAFF; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
+        .container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 32px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 20px 40px rgba(0,0,0,0.04); }
+        .header { background-color: #1E1F4B; padding: 48px 20px; text-align: center; }
+        .logo { color: #ffffff; font-size: 28px; font-weight: 900; letter-spacing: -1.5px; text-decoration: none; }
+        .content { padding: 48px; text-align: center; color: #475569; }
+        .welcome-text { color: #1E1F4B; font-size: 28px; font-weight: 900; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .highlight { color: #5D5FEF; }
+        
+        /* Premium Card Style */
+        .feature-table { margin-bottom: 16px; background-color: #F8FAFF; border-radius: 20px; border: 1px solid #EEF2FF; }
+        .feature-icon { background-color: #5D5FEF; width: 44px; height: 44px; border-radius: 12px; color: #ffffff; font-weight: 900; font-size: 18px; line-height: 44px; text-align: center; }
+        
+        .cta-button { display: inline-block; background-color: #5D5FEF; color: #ffffff !important; padding: 18px 36px; border-radius: 16px; text-decoration: none; font-weight: 800; margin-top: 32px; box-shadow: 0 10px 20px rgba(93, 95, 239, 0.2); }
+        
+        /* SEO/Resource Section */
+        .resource-section { padding: 32px; background-color: #ffffff; border-top: 1px solid #F1F5F9; text-align: left; }
+        .resource-title { font-size: 12px; font-weight: 900; color: #94A3B8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+        .resource-link { display: block; padding: 12px 0; color: #1E1F4B; text-decoration: none; font-weight: 700; border-bottom: 1px solid #F8FAFF; font-size: 14px; }
+        
+        .footer { background-color: #F8FAFF; padding: 40px 20px; text-align: center; font-size: 12px; color: #94A3B8; line-height: 1.8; }
+    </style>
+</head>
+<body>
+    <div style="display:none; font-size:1px; color:#ffffff; line-height:1px; max-height:0px; max-width:0px; opacity:0; overflow:hidden;">
+        Welcome to Wrklyst. Your professional toolkit for faster workflows.
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <a href="https://wrklyst.com" class="logo">Wrklyst</a>
+        </div>
+
+        <div class="content">
+            <h1 class="welcome-text">You're on the <span class="highlight">list.</span></h1>
+            <p style="font-size: 16px; margin-bottom: 32px;">Hi there, you've joined a community of pros dedicated to building smarter workflows.</p>
+
+            <table role="presentation" width="100%" class="feature-table">
+                <tr><td style="padding: 24px;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="44"><div class="feature-icon">P</div></td>
+                            <td style="padding-left: 20px; text-align: left;">
+                                <p style="margin: 0; font-size: 16px; font-weight: 800; color: #1E1F4B;">Productivity Spotlights</p>
+                                <p style="margin: 4px 0 0; font-size: 13px; color: #64748B;">Curated tools to 10x your output.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>
+
+            <table role="presentation" width="100%" class="feature-table">
+                <tr><td style="padding: 24px;">
+                    <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="44"><div class="feature-icon" style="background-color: #1E1F4B;">A</div></td>
+                            <td style="padding-left: 20px; text-align: left;">
+                                <p style="margin: 0; font-size: 16px; font-weight: 800; color: #1E1F4B;">Automation Hacks</p>
+                                <p style="margin: 4px 0 0; font-size: 13px; color: #64748B;">Secrets to building hands-free workflows.</p>
+                            </td>
+                        </tr>
+                    </table>
+                </td></tr>
+            </table>
+
+            <a href="https://wrklyst.com/tools" class="cta-button">Browse All Tools</a>
+        </div>
+
+        <div class="resource-section">
+            <div class="resource-title">Helpful Resources</div>
+            <a href="https://wrklyst.com/blog/speed-up-workflow" class="resource-link">⚡ 5 Ways to Speed Up Your Daily Workflow</a>
+            <a href="https://wrklyst.com/security" class="resource-link">🛡️ How Wrklyst Keeps Your Files Secure</a>
+            <a href="https://wrklyst.com/guide" class="resource-link">📖 Complete Guide to File Management</a>
+        </div>
+
+        <div class="footer">
+            <p>Sent to <strong>{{ email }}</strong> with ❤️ from Wrklyst</p>
+            <p>© 2026 Wrklyst Inc. | 123 Workflow St, San Francisco, CA</p>
+            <div style="margin: 20px 0;">
+                <a href="#" style="color: #5D5FEF; text-decoration: none; margin: 0 10px; font-weight: 800;">Twitter</a>
+                <a href="#" style="color: #5D5FEF; text-decoration: none; margin: 0 10px; font-weight: 800;">LinkedIn</a>
+            </div>
+            <p><a href="#" style="color: #94A3B8; text-decoration: underline;">Unsubscribe from these updates</a></p>
+        </div>
+    </div>
+</body>
+</html>
