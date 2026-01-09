@@ -1,15 +1,23 @@
-from fastapi_mail import ConnectionConfig ,MessageSchema ,FastMail
+from fastapi_mail import ConnectionConfig ,MessageSchema ,FastMail 
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 load_dotenv()
-conf =ConnectionConfig(
+BASE_PATH = Path(__file__).resolve().parent.parent # This points to /app/
+
+# Combine it to get the template folder
+# Result: /home/singsys/personal-project/backend/app/templates/emails
+TEMPLATE_DIR = BASE_PATH / "templates" / "emails"
+
+conf = ConnectionConfig(
     MAIL_USERNAME=os.getenv("MAIL_USERNAME"),
     MAIL_PASSWORD=os.getenv("MAIL_PASSWORD"),
     MAIL_FROM=os.getenv("MAIL_FROM"),
     MAIL_SERVER=os.getenv("MAIL_SERVER"),
-    MAIL_PORT=int(os.getenv("MAIL_PORT" ,587)),
-    MAIL_STARTTLS=os.getenv("MAIL_TLS") == "True",
-    MAIL_SSL_TLS=os.getenv("MAIL_SSL") == "True"
+    MAIL_PORT=int(os.getenv("MAIL_PORT", 587)),
+    MAIL_STARTTLS=os.getenv("MAIL_TLS", "True") == "True",
+    MAIL_SSL_TLS=os.getenv("MAIL_SSL", "False") == "True",
+    TEMPLATE_FOLDER=TEMPLATE_DIR # Now points correctly to /app/templates/emails
 )
 
 async def send_otp_email(email: str, otp: str):
@@ -85,3 +93,15 @@ async def send_otp_email(email: str, otp: str):
     fm = FastMail(conf)
     await fm.send_message(message)
 
+
+
+
+async def send_confirmation_email(first_name:str , last_name:str,message_text:str,email:str):
+    preview=message_text[:60]
+
+    mail= MessageSchema(
+        subject="We've received your message! - Wrklyst",
+        recipients=[email],
+        template_body={"firstname":first_name,"message_preview":preview},
+        subtype="html"
+    )

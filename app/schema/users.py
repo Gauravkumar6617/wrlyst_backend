@@ -49,3 +49,16 @@ class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user:UserOut
+
+
+#----------UserUpdate-----
+
+class UsernameUpdate(BaseModel):
+    username:str
+
+
+#------------reset-password---
+class ResetPasswordRequest(BaseModel):
+    email: EmailStr
+    otp: str
+    new_password: str

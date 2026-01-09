@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException,status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.schema.users import UserCreate, UserLogin, UserResponse ,TokenResponse ,UserOut,verifyOtp
+from app.schema.users import UserCreate, UserLogin, UserResponse ,TokenResponse ,UserOut,verifyOtp ,UsernameUpdate ,ResetPasswordRequest
 from app.services.auth import create_user, authenticate_user
 from app.core.security import create_access_token
 from app.model.users import  Users
@@ -12,6 +12,9 @@ from google.oauth2 import id_token
 from google.auth.transport import requests
 from app.core.config import settings
 from app.model.users import Users
+from app.api.deps import get_current_user
+import random
+from datetime import datetime, timedelta
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
@@ -48,8 +51,22 @@ def login(data: UserLogin, db: Session = Depends(get_db)):
 
     if not user.is_verified:
         raise HTTPException(403, "Email not verified")
+    
+    access_token = create_access_token(data={"sub": user.email})
 
-    return {"message": "Login success","user":user}
+    return {
+        "access_token":access_token,
+        "token_type":"bearer",
+        "message":"login scucess",
+        "user":{
+            "id": user.id,
+            "email": user.email,
+            "username": user.username,
+            "is_admin": user.is_admin,
+            "is_verified": user.is_verified
+        }
+
+    }
 
 
 @router.post("/google-login")
@@ -124,3 +141,65 @@ def verify_email(data: verifyOtp, db: Session = Depends(get_db)):
     db.commit()
     return {"message": "Email verified successfully"}
 
+
+
+@router.patch("/update-me")
+def UpdateUser(payload:UsernameUpdate,db:Session=Depends(get_db),current_user:Users=Depends(get_current_user)):
+    current_user.username=payload.username
+    db.commit()
+    db.refresh(current_user)
+
+    return {"message": "Profile updated successfully", "username": current_user.username}
+
+@router.post("/forgot-password")
+async def forgot_password(email: str, db: Session = Depends(get_db)):
+    user = db.query(Users).filter(Users.email == email).first()
+    if not user:
+        # Security tip: don't reveal if email exists, just say "Sent"
+        return {"message": "If this email is registered, an OTP has been sent."}
+
+    # 1. Generate 6-digit OTP
+    otp = f"{random.randint(100000, 999999)}"
+    
+    # 2. Save to DB
+    user.otp_code = otp
+    user.otp_expiry = datetime.utcnow() + timedelta(minutes=10)
+    db.commit()
+
+
+    print("\n" + "="*30)
+    print(f"FORGOT PASSWORD REQUEST")
+    print(f"User Name: {user.username}")
+    print(f"User Email: {user.email}")
+    print(f"Generated OTP: {otp}")
+    print("="*30 + "\n")
+    # 3. Send the Email (reuse your existing email service)
+    # await send_otp_email(email, otp) 
+    
+    return {"message": "OTP sent successfully"}
+
+@router.post("/reset-password")
+async def reset_password(payload: ResetPasswordRequest, db: Session = Depends(get_db)):
+    # 1. Find the user
+    user = db.query(Users).filter(Users.email == payload.email).first()
+
+    # 2. Security Check: Does user exist and does OTP match?
+    if not user or user.otp_code != payload.otp:
+        raise HTTPException(status_code=400, detail="Invalid OTP or Email")
+
+    # 3. Time Check: Has the OTP expired?
+    if user.otp_expiry and datetime.utcnow() > user.otp_expiry:
+        raise HTTPException(status_code=400, detail="OTP has expired. Please request a new one.")
+
+    # 4. Success Path: Hash new password and Update DB
+    user.password_hash = hash_password(payload.new_password)
+    
+    # 5. Cleanup: Clear OTP so it cannot be used again
+    user.otp_code = None
+    user.otp_expiry = None
+    
+    db.commit()
+
+    print(f"SUCCESS: Password for {user.username} has been reset.")
+    
+    return {"message": "Password reset successfully. You can now login with your new password."}
