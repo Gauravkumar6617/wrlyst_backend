@@ -10,16 +10,17 @@ BASE_PATH = Path(__file__).resolve().parent.parent # This points to /app/
 TEMPLATE_DIR = BASE_PATH / "templates" / "emails"
 
 conf = ConnectionConfig(
-    MAIL_USERNAME="noreply@wrklyst.com",
-    MAIL_PASSWORD="G1kAoLfgWBomslcD", 
-    MAIL_FROM="noreply@wrklyst.com",
-    MAIL_SERVER="smtp.titan.email",
-    MAIL_PORT=465,                  # Titan works best on 465
-    MAIL_STARTTLS=False,            # Must be False for 465
-    MAIL_SSL_TLS=True,              # Must be True for 465
-    USE_CREDENTIALS=True,
-    VALIDATE_CERTS=True,
-    TEMPLATE_FOLDER=TEMPLATE_DIR
+    MAIL_USERNAME = "info@wrklyst.com",
+    MAIL_PASSWORD = "@Gaurav6617",
+    MAIL_FROM = "info@wrklyst.com",
+    MAIL_PORT = 465,
+    MAIL_SERVER = "smtpout.secureserver.net",
+    MAIL_STARTTLS = False,
+    MAIL_SSL_TLS = True,
+    USE_CREDENTIALS = True,
+    VALIDATE_CERTS = True,
+    # ADD THIS LINE:
+    TEMPLATE_FOLDER = TEMPLATE_DIR 
 )
 async def send_otp_email(email: str, otp: str):
     html_content = f"""
