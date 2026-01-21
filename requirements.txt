@@ -4,10 +4,8 @@ aiofiles==25.1.0
 fastapi==0.110.0
 starlette==0.36.3
 uvicorn[standard]==0.29.0
-pydantic>=2.7.0,<3.0.0
-pydantic-core==2.16.2
-annotated-types==0.7.0
-pydantic-settings>=2.7.0,<3.0.0
+pydantic>=2.12.4,<3.0.0
+pydantic-settings>=2.12.0,<3.0.0
 email-validator==2.1.1
 python-dotenv==1.0.1
 python-multipart==0.0.9
